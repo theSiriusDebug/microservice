@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ProductServiceTest {
 
     @Container
-    static MongoDBContainer container = new MongoDBContainer("mongo:7.0.2");
+    static MongoDBContainer container = new MongoDBContainer("mongo:6.0.2");
 
     private final ProductRepository repository;
 

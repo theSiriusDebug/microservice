@@ -12,6 +12,7 @@
     <modules>
         <module>product-service</module>
         <module>eureka-server</module>
+        <module>client-service</module>
     </modules>
 
     <properties>
