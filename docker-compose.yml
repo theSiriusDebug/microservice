@@ -9,7 +9,7 @@ services:
       - mongodb-network
 
   mongodb:
-    image: mongo:6-jammy
+    image: mongo:latest
     ports:
       - '27017:27017'
     volumes:
@@ -20,7 +20,7 @@ services:
   mongo-express:
     image: mongo-express:latest
     ports:
-      - '8081:8081'
+      - '9090:9090'
     environment:
       - ME_CONFIG_MONGODB_SERVER=mongodb
       - ME_CONFIG_MONGODB_PORT=27017

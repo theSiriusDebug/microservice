@@ -1,11 +1,9 @@
 package microservice.product.service;
 
-import microservice.product.domain.dto.ProductDto;
 import microservice.product.domain.dto.ProductRegistrationDto;
-
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface ProductService {
+    @Transactional
     void createProduct(ProductRegistrationDto registrationDto);
-    List<ProductDto> allProducts();
 }
