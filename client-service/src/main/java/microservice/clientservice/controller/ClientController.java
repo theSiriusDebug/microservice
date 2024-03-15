@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/clients")
 public record ClientController(ClientServiceImpl service) {
 
+    @GetMapping
+    public String getString() {
+        return "Hello!";
+    }
+
     @PostMapping
     public Client createClient(@RequestBody ClientRegistrationRequest request) {
         return service.createClient(request);

@@ -10,7 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.SequenceGenerator;
 
-@Document(value = "product")
+@Document(value = "client")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
