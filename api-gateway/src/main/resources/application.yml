@@ -15,7 +15,10 @@ spring:
           uri: lb://client-service
           predicates:
             - Path=/clients/**
-            - Method=GET
+        - id: product-service
+          uri: lb://product-service
+          predicates:
+            - Path=/products/**
 eureka:
   client:
     service-url:
