@@ -8,5 +8,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public interface OrderService {
     @Transactional
-    Order placeOrder(OrderRequest request);
+    void placeOrder(OrderRequest request);
 }

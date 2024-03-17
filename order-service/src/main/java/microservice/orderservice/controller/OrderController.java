@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public record OrderController(OrderServiceImpl service) {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Order placeOrder(@RequestBody OrderRequest request) {
-        return service.placeOrder(request);
+    public void placeOrder(@RequestBody OrderRequest request) {
+        service.placeOrder(request);
     }
 }
