@@ -12,6 +12,7 @@
     <modules>
         <module>ai</module>
         <module>inventory-service</module>
+        <module>order-service</module>
         <module>api-gateway</module>
         <module>product-service</module>
         <module>eureka-server</module>

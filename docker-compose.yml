@@ -43,6 +43,7 @@ services:
     networks:
       - postgres
     restart: unless-stopped
+
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4
@@ -58,12 +59,12 @@ services:
       - postgres
     restart: unless-stopped
 
-
 networks:
   mongodb-network:
     driver: bridge
   postgres:
     driver: bridge
+
 volumes:
   dbdata6:
   postgres:
