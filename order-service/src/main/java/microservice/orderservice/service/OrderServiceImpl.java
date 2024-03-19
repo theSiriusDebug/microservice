@@ -1,12 +1,12 @@
 package microservice.orderservice.service;
 
+import lombok.RequiredArgsConstructor;
 import microservice.orderservice.dto.InventoryResponse;
 import microservice.orderservice.dto.OrderLineItemsDto;
 import microservice.orderservice.dto.OrderRequest;
 import microservice.orderservice.model.Order;
 import microservice.orderservice.model.OrderLineItems;
 import microservice.orderservice.repository.OrderRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -16,19 +16,14 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository repository;
-    private final WebClient webClient;
-
-    @Autowired
-    public OrderServiceImpl(OrderRepository repository, WebClient webClient) {
-        this.repository = repository;
-        this.webClient = webClient;
-    }
+    private final WebClient.Builder webClient;
 
     @Override
     @Transactional
-    public void placeOrder(OrderRequest orderRequest) {
+    public String placeOrder(OrderRequest orderRequest) {
         Order order = new Order();
         order.setOrderNumber(UUID.randomUUID().toString());
 
@@ -43,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
                 .map(OrderLineItems::getSkuCode)
                 .toList();
 
-        InventoryResponse[] inventoryResponsesArray = webClient.get()
+        InventoryResponse[] inventoryResponsesArray = webClient.build().get()
                 .uri("http://localhost:8765/inventory",
                         uriBuilder -> uriBuilder.queryParam("skuCode", skuCodes).build())
                 .retrieve()
@@ -53,6 +48,7 @@ public class OrderServiceImpl implements OrderService {
         if (Arrays.stream(inventoryResponsesArray)
                 .allMatch(InventoryResponse::isInStock)) {
             repository.save(order);
+            return "Order placed successfulle!";
         } else {
             throw new IllegalArgumentException("Product is not in stock, please try again");
         }
