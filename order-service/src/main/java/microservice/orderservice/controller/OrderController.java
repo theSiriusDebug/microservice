@@ -20,15 +20,15 @@ public class OrderController {
         this.service = service;
     }
 
+//    @PostMapping
+//    @ResponseStatus(HttpStatus.CREATED)
+//    @CircuitBreaker(name = "inventory", fallbackMethod = "fallbackMethod")
+//    @TimeLimiter(name = "inventory")
+//    public CompletableFuture<String> placeOrder(@RequestBody OrderRequest orderRequest) {
+//        return CompletableFuture.supplyAsync(() -> service.placeOrder(orderRequest));
+//    }
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    @CircuitBreaker(name = "inventory", fallbackMethod = "fallbackMethod")
-    @TimeLimiter(name = "inventory")
-    public CompletableFuture<String> placeOrder(@RequestBody OrderRequest orderRequest) {
-        return CompletableFuture.supplyAsync(() -> service.placeOrder(orderRequest));
-    }
-
-    public CompletableFuture<String> fallbackMethod(RuntimeException runtimeException){
-        return CompletableFuture.supplyAsync(() -> "Oops! Something went wrong, please try again later!");
+    public void placeOrder(@RequestBody OrderRequest request){
+        service.placeOrder(request);
     }
 }

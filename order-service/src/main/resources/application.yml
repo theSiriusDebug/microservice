@@ -1,4 +1,12 @@
 spring:
+  devtools:
+    restart:
+      enabled: false
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+#    template:
+#      default-topic: topic1
   application:
     name: order-service
   datasource:
