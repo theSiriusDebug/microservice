@@ -5,8 +5,8 @@ spring:
   kafka:
     producer:
       bootstrap-servers: localhost:9092
-#    template:
-#      default-topic: topic1
+    template:
+      observation-enabled: true
   application:
     name: order-service
   datasource:

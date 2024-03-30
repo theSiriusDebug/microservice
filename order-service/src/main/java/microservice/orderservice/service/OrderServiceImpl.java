@@ -50,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
 
         if (Arrays.stream(inventoryResponsesArray)
                 .allMatch(InventoryResponse::isInStock)) {
-            kafkaTemplate.send("topic1", new OrderPlacedEvent(order.getOrderNumber()));
+            kafkaTemplate.send("order_event", new OrderPlacedEvent(order.getOrderNumber()));
             repository.save(order);
             return "Order placed successfully!";
         } else {

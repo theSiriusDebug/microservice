@@ -1,35 +1,41 @@
 //package microservice.inventoryservice.config;
 //
-//import org.apache.kafka.clients.consumer.ConsumerConfig;
+//import microservice.inventoryservice.dto.InventoryResponse;
 //import org.apache.kafka.clients.producer.ProducerConfig;
-//import org.apache.kafka.common.serialization.ByteArraySerializer;
-//import org.apache.kafka.common.serialization.StringDeserializer;
+//import org.apache.kafka.common.serialization.StringSerializer;
+//import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
 //import org.springframework.kafka.annotation.EnableKafka;
-//import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
-//import org.springframework.kafka.core.ConsumerFactory;
-//import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
-//import org.springframework.kafka.core.KafkaTemplate;
-//import org.springframework.kafka.core.ProducerFactory;
+//import org.springframework.kafka.core.*;
 //
-//import java.util.Collections;
 //import java.util.HashMap;
+//import java.util.List;
 //import java.util.Map;
 //
 //@EnableKafka
 //@Configuration
-//
-//// Class
 //public class KafkaConfig {
+//    @Value("spring.kafka.producer.bootstrap-servers")
+//    private String bootstrapAddress;
+//
 //    @Bean
-//    public KafkaTemplate<String, String> stringTemplate(ProducerFactory<String, String> pf) {
-//        return new KafkaTemplate<>(pf);
+//    public ProducerFactory<String, List<InventoryResponse>> producerFactory() {
+//        Map<String, Object> props = new HashMap<>();
+//        props.put(
+//                ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
+//                bootstrapAddress);
+//        props.put(
+//                ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
+//                StringSerializer.class);
+//        props.put(
+//                ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+//                StringSerializer.class);
+//        return new DefaultKafkaProducerFactory<>(props);
 //    }
 //
 //    @Bean
-//    public KafkaTemplate<String, byte[]> bytesTemplate(ProducerFactory<String, byte[]> pf) {
-//        return new KafkaTemplate<>(pf,
-//                Collections.singletonMap(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, ByteArraySerializer.class));
+//    public KafkaTemplate<String, List<InventoryResponse>> kafkaTemplate() {
+//        return new KafkaTemplate<>(producerFactory());
 //    }
 //}
