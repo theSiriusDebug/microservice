@@ -9,7 +9,6 @@ import microservice.orderservice.model.Order;
 import microservice.orderservice.model.OrderLineItems;
 import microservice.orderservice.repository.OrderRepository;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -18,7 +17,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor

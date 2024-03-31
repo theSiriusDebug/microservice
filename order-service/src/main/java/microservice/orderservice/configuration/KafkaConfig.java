@@ -1,6 +1,7 @@
 package microservice.orderservice.configuration;
 
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import microservice.orderservice.event.OrderPlacedEvent;
@@ -33,12 +34,13 @@ public class KafkaConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, OrderPlacedEvent> bytesTemplate(ProducerFactory<String, OrderPlacedEvent> producerFactory) {
-        KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate = new KafkaTemplate<>(producerFactory,
-                Collections.singletonMap(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class));
+    public KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate(
+            ProducerFactory<String, OrderPlacedEvent> producerFactory) {
+        KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate = new KafkaTemplate<>(
+                producerFactory, Collections.singletonMap(
+                        ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class));
         kafkaTemplate.setObservationEnabled(true);
-        kafkaTemplate.setObservationConvention(
-                kafkaTemplateObservation());
+        kafkaTemplate.setObservationConvention(kafkaTemplateObservation());
         return kafkaTemplate;
     }
 

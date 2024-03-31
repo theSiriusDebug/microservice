@@ -6,10 +6,9 @@ spring:
       group-id: myId
     listener:
       observation-enabled: true
-      id:
-
+      client-id:
   application:
-    name: historyt-service
+    name: history-service
 eureka:
   client:
     service-url:
@@ -19,5 +18,13 @@ eureka:
     enabled: true
   instance:
     hostname: localhost
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
 server:
   port: 0
