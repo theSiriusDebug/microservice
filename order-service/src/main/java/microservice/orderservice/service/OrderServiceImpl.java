@@ -9,24 +9,26 @@ import microservice.orderservice.model.Order;
 import microservice.orderservice.model.OrderLineItems;
 import microservice.orderservice.repository.OrderRepository;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
-public class OrderServiceImpl implements OrderService {
+public class OrderServiceImpl {
     private final OrderRepository repository;
     private final WebClient.Builder webClient;
     private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
 
-    @Override
     @Transactional
-    public String placeOrder(OrderRequest orderRequest) {
+    public void placeOrder(OrderRequest orderRequest) {
         Order order = new Order();
         order.setOrderNumber(UUID.randomUUID().toString());
 
@@ -48,15 +50,26 @@ public class OrderServiceImpl implements OrderService {
                 .bodyToMono(InventoryResponse[].class)
                 .block();
 
-        if (Arrays.stream(inventoryResponsesArray)
-                .allMatch(InventoryResponse::isInStock)) {
-            kafkaTemplate.send("order_event", new OrderPlacedEvent(order.getOrderNumber()));
-            repository.save(order);
-            return "Order placed successfully!";
+        if (Arrays.stream(
+                Objects.requireNonNull(
+                        inventoryResponsesArray)).allMatch(InventoryResponse::isInStock)) {
+            sendToKafka(order);
         } else {
             throw new IllegalArgumentException("Product is not in stock, please try again");
         }
     }
+
+    private void sendToKafka(Order order){
+        Objects.requireNonNull(kafkaTemplate.executeInTransaction(t ->
+                t.send("order_event", new OrderPlacedEvent(order.getOrderNumber())))).whenComplete((result, exception) -> {
+            if (exception == null) {
+                repository.save(order);
+            } else {
+                System.err.println("Error sending order event to Kafka: " + exception.getMessage());
+            }
+        });
+    }
+
 
     private OrderLineItems mapToDto(OrderLineItemsDto orderLineItemsDto) {
         OrderLineItems orderLineItems = new OrderLineItems();
