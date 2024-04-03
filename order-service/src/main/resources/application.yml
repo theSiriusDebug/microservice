@@ -31,6 +31,13 @@ eureka:
   instance:
     hostname: localhost
 management:
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  metrics:
+    tags:
+      application: 'order-service'
   endpoint:
     health:
       show-details: always
@@ -42,7 +49,7 @@ management:
     circuitbreakers:
       enabled: true
 server:
-  port: 0
+  port: 8085
 resilience4j:
   retry:
     instances:

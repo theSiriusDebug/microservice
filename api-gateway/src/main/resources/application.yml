@@ -47,3 +47,19 @@ eureka:
     enabled: true
   instance:
     hostname: localhost
+
+management:
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  metrics:
+    tags:
+      application: api-gateway
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'

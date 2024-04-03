@@ -7,6 +7,7 @@ import io.micrometer.tracing.Tracer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.metrics.export.prometheus.PrometheusScrapeEndpoint;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.kafka.annotation.KafkaListener;
 
@@ -17,7 +18,6 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class HistoryServiceApplication {
     private final PrometheusMeterRegistry registry;
-    private final Tracer tracer;
 
     public static void main(String[] args) {
         SpringApplication.run(HistoryServiceApplication.class, args);
@@ -27,9 +27,7 @@ public class HistoryServiceApplication {
     public void handleNotification(OrderPlacedEvent event) {
         Counter counter = registry.counter("on-message");
         counter.increment();
-//        Observation.createNotStarted("on-message", this.registry).observe(() -> {
-//            log.info("Got message <{}>", event);
-//            log.info("TraceId- {}, Received Notification for Order - {}", Objects.requireNonNull(this.tracer.currentSpan()).context().traceId(), event.orderNumber());
-//        });
+        registry.scrape();
+        log.info("Got message <{}>", event);
     }
 }

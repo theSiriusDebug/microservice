@@ -19,6 +19,13 @@ eureka:
   instance:
     hostname: localhost
 management:
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  metrics:
+    tags:
+      application: history-service
   endpoint:
     health:
       show-details: always
@@ -27,4 +34,4 @@ management:
       exposure:
         include: '*'
 server:
-  port: 0
+  port: 8083

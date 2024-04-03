@@ -23,4 +23,19 @@ eureka:
   instance:
     hostname: localhost
 server:
-  port: 0
+  port: 8084
+management:
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  metrics:
+    tags:
+      application: inventory-service
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'

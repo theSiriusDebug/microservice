@@ -84,6 +84,21 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
 
+  prometheus:
+    image: prom/prometheus:latest  # Or specific version if desired
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro  # Read-only for configuration
+    ports:
+      - "9090:9090"
+    restart: unless-stopped  # Restart automatically on failure
+
+  grafana:
+    image: grafana/grafana-oss
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+
 networks:
   mongodb-network:
     driver: bridge
