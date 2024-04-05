@@ -25,6 +25,10 @@ eureka:
 server:
   port: 8084
 management:
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0
   prometheus:
     metrics:
       export:

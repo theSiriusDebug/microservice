@@ -49,6 +49,10 @@ eureka:
     hostname: localhost
 
 management:
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0
   prometheus:
     metrics:
       export:

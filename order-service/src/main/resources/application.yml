@@ -31,6 +31,13 @@ eureka:
   instance:
     hostname: localhost
 management:
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0
+#  zipkin:
+#    tracing:
+#      endpoint: http://zipikin:9411
   prometheus:
     metrics:
       export:

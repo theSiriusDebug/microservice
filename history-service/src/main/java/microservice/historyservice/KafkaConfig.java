@@ -1,5 +1,7 @@
 package microservice.historyservice;
 
+import io.micrometer.prometheus.PrometheusConfig;
+import io.micrometer.prometheus.PrometheusMeterRegistry;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -23,7 +25,14 @@ public class KafkaConfig {
             container.getContainerProperties()
                     .setObservationConvention(kafkaListenerObservation());
         };
-
     }
-
+//
+//    @Bean
+//    public PrometheusConfig prometheusConfig(){
+//        return new PrometheusConfig();
+//    }
+//    @Bean
+//    public PrometheusMeterRegistry prometheusMeterRegistry(){
+//        return new PrometheusMeterRegistry(PrometheusConfig);
+//    }
 }
