@@ -26,7 +26,7 @@ public class OrderServiceImpl {
     private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
 
     @Transactional
-    public void placeOrder(OrderRequest orderRequest) {
+    public Order placeOrder(OrderRequest orderRequest) {
         Order order = new Order();
         order.setOrderNumber(UUID.randomUUID().toString());
 
@@ -52,6 +52,7 @@ public class OrderServiceImpl {
                 Objects.requireNonNull(
                         inventoryResponsesArray)).allMatch(InventoryResponse::isInStock)) {
             sendToKafka(order);
+            return order;
         } else {
             throw new IllegalArgumentException("Product is not in stock, please try again");
         }
