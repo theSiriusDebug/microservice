@@ -10,8 +10,14 @@
     <name>microservice</name>
     <url>http://maven.apache.org</url>
     <modules>
+        <module>ai</module>
+        <module>inventory-service</module>
+        <module>order-service</module>
+        <module>api-gateway</module>
         <module>product-service</module>
         <module>eureka-server</module>
+        <module>client-service</module>
+        <module>history-service</module>
     </modules>
 
     <properties>
